@@ -8,9 +8,9 @@ Engine_Speckles : CroneEngine {
   alloc {
     		SynthDef.new(\speckles,
 			{
-				arg out, freq = 1, amp = 1, filter = 0, filter_freq = 440, reso = 0;
+				arg out, density = 1, amp = 1, filter = 0, filter_freq = 440, reso = 0;
 				var eng, sig;
-				eng = Dust2.ar(freq);
+				eng = Dust2.ar(density);
 
         sig = Select.ar(filter, [
           eng,
@@ -25,9 +25,9 @@ Engine_Speckles : CroneEngine {
     context.server.sync;
     speckle = Synth(\speckles, [\out, context.out_b]);
 
-    this.addCommand(\freq, "f", { arg msg;
+    this.addCommand(\density, "f", { arg msg;
 			var val = msg[1].asFloat;
-			speckle.set(\freq, val);
+			speckle.set(\density, val);
 		});
 		
 		this.addCommand(\amp, "f", { arg msg;
