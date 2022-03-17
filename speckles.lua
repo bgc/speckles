@@ -27,6 +27,9 @@
 --
 -- PAGE 1
 -- Encoder 2 - speckles density
+-- Encoder 3 - Panning
+-- Button 3 - Toggle main Reverb
+--
 -- PAGE 2
 -- Encoder 2 - filter freq
 -- Encoder 3 - filter resonance
