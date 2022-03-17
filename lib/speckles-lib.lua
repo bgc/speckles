@@ -30,14 +30,22 @@ function setupControls()
         ),
         action = engine.density
     }
+    -- Param / Controlspec for engine density
+    params:add{
+        type = "control",
+        id = "panning",
+        controlspec = controlspec.PAN,
+        action = engine.panning
+    }
 
     params:add_separator("Filter")
-    -- filter type lp/hp
+    -- filter type none/lp/bp/hp
     params:add_number("filter", "filter", 0, 3, 0)
     params:set_action("filter", function(v)
         engine.filter(v)
     end)
 
+    -- filter frequency
     params:add{
         type = "control",
         id = "filter_freq",
@@ -50,6 +58,8 @@ function setupControls()
         ),
         action = engine.filter_freq
     }
+
+    -- filter resonance
     params:add{
         type = "control",
         id = "reso",
@@ -62,11 +72,7 @@ function setupControls()
         ),
         action = engine.reso
     }
-    -- params:add_control("filter_freq", "filter_freq", controlspec.WIDEFREQ)
-    -- params:set_action("filter_freq", function(v) engine.filter_freq(v) end)
 
-    -- params:add_control("reso", "reso", controlspec.RQ)
-    -- params:set_action("reso", function(v) engine.reso(v) end)
     params:add_separator()
 
 end
@@ -79,22 +85,22 @@ end
 -- Button 2 - Change Page
 
 function drawInstructions()
-    screen.move(1, 8)
+    screen.move(1, 12)
     screen.text("CONTROLS")
     screen.stroke()
     screen.close()
 
-    screen.move(1, 18)
+    screen.move(1, 22)
     screen.text("E1 - Volume")
     screen.stroke()
     screen.close()
 
-    screen.move(1, 28)
+    screen.move(1, 32)
     screen.text("B2 - Change Page")
     screen.stroke()
     screen.close()
 
-    screen.move(1, 38)
+    screen.move(1, 42)
     screen.text("B3, E2, E3 Page dependant")
     screen.stroke()
     screen.close()
@@ -124,4 +130,21 @@ function handleFilterTypeControl()
       -- disabled we do not want the filter graph active
       theSpeckles.filterUI.filter:set_active(false)
     end
+end
+
+-- draws filter values to screen
+function printFilterValues()
+    -- frequency
+    screen.move(2, 12)
+    screen.text("E2 - F: ")
+    screen.move(32, 12)
+    screen.text(string.format("%.2f", params:get('filter_freq')))
+    -- resonance
+    screen.move(70, 12)
+    screen.text("E3 - R: ")
+    screen.move(104, 12)
+    screen.text(string.format("%.2f", params:get('reso')))
+    -- filter type
+    screen.move(70, 20)
+    screen.text("B3 - Type: ")
 end

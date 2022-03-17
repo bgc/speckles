@@ -66,14 +66,18 @@ local function setupScreen()
     screen.font_size(8)
 end
 
+available_screens = {'Osc', 'Filter', 'LFO', 'Help'}
 local function setupUI()
-    theSpeckles.pages = UI.Pages.new(1, 3)
+    theSpeckles.tabs = UI.Tabs.new(1, available_screens)
     -- UI.Dial.new (x, y, size, value, min_value, max_value, rounding, start_value, markers, units, title)
     theSpeckles.oscUI.freq = UI.Dial.new(12, 34, 20, params:get('density'), 0.01, 440, 0.01, 1, {}, 'i/s')
+    theSpeckles.oscUI.panning = UI.Dial.new(58, 34, 20, params:get('panning'), -1, 1, 0.01, 0, {-1, 0, 1}, '')
+    theSpeckles.oscUI.reverb_states = {'OFF', 'ON'}
+    theSpeckles.oscUI.reverb = UI.List.new(94, 34, params:get('reverb'), theSpeckles.oscUI.reverb_states)
     theSpeckles.filterUI.filters = {"disabled", "lowpass", "bandpass", "highpass"}
     theSpeckles.filterUI.filter = fGraph.new()
     theSpeckles.filterUI.filter:set_active(false)
-    theSpeckles.filterUI.filter:set_position_and_size(2, 22, 56, 36)
+    theSpeckles.filterUI.filter:set_position_and_size(2, 22, 66, 34)
     theSpeckles.filterUI.filterTypes = UI.List.new(74, 22, 1, theSpeckles.filterUI.filters)
 end
 
@@ -98,11 +102,23 @@ end
 
 -- Keys functionality 
 function key(button, state)
-    local screen = theSpeckles.pages.index
+    local screen = theSpeckles.tabs.index
 
     -- button 2  is shared amongst screens
     if button == 2 and state == 1 then
-        theSpeckles.pages:set_index_delta(1, true)
+        theSpeckles.tabs:set_index_delta(1, true)
+    end
+    if screen == 1 then
+        if button == 3 and state == 1 then
+            local current = params:get("reverb")
+            if current == 2 then
+                params:set("reverb", 1)
+                theSpeckles.oscUI.reverb:set_index(1)
+            else
+                params:set("reverb", 2)
+                theSpeckles.oscUI.reverb:set_index(2)
+            end
+        end
     end
 
     if screen == 2 then
@@ -121,7 +137,7 @@ function enc(encoder, delta)
         params:delta("amp", delta)
     end
 
-    local screen = theSpeckles.pages.index
+    local screen = theSpeckles.tabs.index
 
     -- handle encoder 2
     if encoder == 2 then
@@ -143,6 +159,11 @@ function enc(encoder, delta)
 
     -- handle encoder 3
     if encoder == 3 then
+        -- screen 1 encoder 3 is the engine panning
+        if screen == 1 then
+            params:delta("panning", delta)
+            theSpeckles.oscUI.panning:set_value(params:get("panning"))
+        end
         -- screen 2 encoder 3 is filter resonance
         if screen == 2 then
             local currentFilterType = theSpeckles.filterUI.filter:filter_type()
@@ -163,35 +184,36 @@ function redraw()
     -- clear screen
     screen.clear()
 
-    -- redraw pages control
-    theSpeckles.pages:redraw()
-    local activePage = theSpeckles.pages.index
+    -- redraw tabs control
+    local activeTab = theSpeckles.tabs.index
+    theSpeckles.tabs:redraw() -- redraw tabs
 
-    if activePage == 1 then
-        screen.move(7, 31)
+    if activeTab == 1 then
+        screen.move(7, 28)
         screen.text("Density")
         screen.stroke()
         screen.close()
         theSpeckles.oscUI.freq:redraw()
-    elseif activePage == 2 then
-        screen.move(5, 10)
-        screen.text("E2 - Freq: ")
-        screen.move(50, 10)
-        screen.text(string.format("%.2f", params:get('filter_freq')))
-        -- res
-        screen.move(5, 20)
-        screen.text("E3 - Res: ")
-        screen.move(50, 20)
-        screen.text(string.format("%.2f", params:get('reso')))
-        -- type
-        screen.move(70, 20)
-        screen.text("B3 - Type: ")
+        screen.move(52, 28)
+        screen.text("Panning")
+        screen.stroke()
+        screen.close()
+        theSpeckles.oscUI.panning:redraw()
+        screen.move(94, 28)
+        screen.text("Reverb")
+        screen.stroke()
+        screen.close()
+        theSpeckles.oscUI.reverb:redraw()
+    elseif activeTab == 2 then
+        printFilterValues()
         theSpeckles.filterUI.filterTypes:redraw()
         if theSpeckles.filterUI.filter:get_active() then
             theSpeckles.filterUI.filter:redraw()
         end
+    elseif activeTab == 3 then
+    
     -- Render Instructions on last page
-    elseif activePage == theSpeckles.pages.num_pages then
+    elseif activeTab == 4 then
         -- found in ./lib/speckles-lib
         drawInstructions()
     end
