@@ -15,7 +15,7 @@ Engine_Speckles : CroneEngine {
         sig = Select.ar(filter, [
           eng,
           RLPF.ar(eng, freq: filter_freq, rq: 1-reso),
-          BPF.ar(eng, freq: filter_freq, rq: 1-reso),
+          Resonz.ar(eng, freq: filter_freq, rq: 8-(8*reso)),
           RHPF.ar(eng, freq: filter_freq, rq: 1-reso)
         ]);
         

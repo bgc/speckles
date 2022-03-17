@@ -191,7 +191,7 @@ function redraw()
             theSpeckles.filterUI.filter:redraw()
         end
     -- Render Instructions on last page
-    elseif activePage == 3 then
+    elseif activePage == theSpeckles.pages.num_pages then
         -- found in ./lib/speckles-lib
         drawInstructions()
     end
