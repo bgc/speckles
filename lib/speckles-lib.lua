@@ -30,7 +30,7 @@ function setupControls()
         ),
         action = engine.density
     }
-    -- Param / Controlspec for engine density
+    -- Param / Controlspec for engine panning
     params:add{
         type = "control",
         id = "panning",
@@ -72,7 +72,34 @@ function setupControls()
         ),
         action = engine.reso
     }
+    params:add_separator("LFO")
+    -- Param / Controlspec for amplitude
+    params:add{
+        type = "control",
+        id = "amount",
+        controlspec = controlspec.new(0, -- minVal
+        1, -- maxVal
+        "linear", -- warp (exp, db, lin)
+        0, -- step (rounded)
+        0, -- default initial value
+        "" -- units
+        ),
+        action = engine.amount
+    }
 
+    -- Param / Controlspec for engine density
+    params:add{
+        type = "control",
+        id = "rate",
+        controlspec = controlspec.new(0.01, -- minVal
+        20, -- maxVal
+        "exp", -- warp (exp, db, lin)
+        0, -- step (rounded)
+        0.01, -- default initial value
+        "Hz" -- units
+        ),
+        action = engine.rate
+    }
     params:add_separator()
 
 end

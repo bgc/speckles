@@ -51,6 +51,7 @@ local fGraph = require "filtergraph"
 theSpeckles = {}
 theSpeckles.oscUI = {}
 theSpeckles.filterUI = {}
+theSpeckles.lfoUI = {}
 
 -- libs
 local speckles_lib = include "lib/speckles-lib"
@@ -70,6 +71,7 @@ local function setupScreen()
 end
 
 available_screens = {'Osc', 'Filter', 'LFO', 'Help'}
+
 local function setupUI()
     theSpeckles.tabs = UI.Tabs.new(1, available_screens)
     -- UI.Dial.new (x, y, size, value, min_value, max_value, rounding, start_value, markers, units, title)
@@ -77,11 +79,15 @@ local function setupUI()
     theSpeckles.oscUI.panning = UI.Dial.new(58, 34, 20, params:get('panning'), -1, 1, 0.01, 0, {-1, 0, 1}, '')
     theSpeckles.oscUI.reverb_states = {'OFF', 'ON'}
     theSpeckles.oscUI.reverb = UI.List.new(94, 34, params:get('reverb'), theSpeckles.oscUI.reverb_states)
+
     theSpeckles.filterUI.filters = {"disabled", "lowpass", "bandpass", "highpass"}
     theSpeckles.filterUI.filter = fGraph.new()
     theSpeckles.filterUI.filter:set_active(false)
     theSpeckles.filterUI.filter:set_position_and_size(2, 22, 66, 34)
     theSpeckles.filterUI.filterTypes = UI.List.new(74, 22, 1, theSpeckles.filterUI.filters)
+
+    theSpeckles.lfoUI.rate = UI.Dial.new(12, 34, 20, params:get('rate'), 0.01, 20, 0.01, 1, {}, 'hz')
+    theSpeckles.lfoUI.amount = UI.Dial.new(58, 34, 20, params:get('amount'), 0, 1, 0.01, 0, {}, '')
 end
 
 -- initialization
@@ -158,6 +164,11 @@ function enc(encoder, delta)
             local filterFreq = params:get("filter_freq")
             theSpeckles.filterUI.filter:edit(currentFilterType, filterSlope, filterFreq, resonance)
         end
+        -- screen 3 encoder 3 is LFO rate
+        if screen == 3 then
+            params:delta("rate", delta)
+            theSpeckles.lfoUI.rate:set_value(params:get("rate"))
+        end
     end
 
     -- handle encoder 3
@@ -175,6 +186,11 @@ function enc(encoder, delta)
             params:delta("reso", delta)
             local resonance = params:get("reso")
             theSpeckles.filterUI.filter:edit(currentFilterType, filterSlope, filterFreq, resonance)
+        end
+        -- screen 3 encoder 3 is LFO amount
+        if screen == 3 then
+            params:delta("amount", delta)
+            theSpeckles.lfoUI.amount:set_value(params:get("amount"))
         end
     end
 
@@ -214,7 +230,16 @@ function redraw()
             theSpeckles.filterUI.filter:redraw()
         end
     elseif activeTab == 3 then
-    
+        screen.move(7, 28)
+        screen.text("Rate")
+        screen.stroke()
+        screen.close()
+        theSpeckles.lfoUI.rate:redraw()
+        screen.move(52, 28)
+        screen.text("Amount")
+        screen.stroke()
+        screen.close()
+        theSpeckles.lfoUI.amount:redraw()
     -- Render Instructions on last page
     elseif activeTab == 4 then
         -- found in ./lib/speckles-lib
