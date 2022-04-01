@@ -20,7 +20,7 @@
 -- Encoder 1 - Volume
 -- Button 1 - Standard norns
 -- function
--- Button 2 - Change Page
+-- Button 3 - Change Page
 --
 -- All others are page
 -- dependant
@@ -28,16 +28,22 @@
 -- PAGE 1
 -- Encoder 2 - speckles density
 -- Encoder 3 - Panning
--- Button 3 - Toggle main Reverb
+-- Button 2 - Toggle main Reverb
 --
 -- PAGE 2
 -- Encoder 2 - filter freq
 -- Encoder 3 - filter resonance
--- Button 3 - filter type
+-- Button 2 - filter type
 -- 0 - none
 -- 1 - low pass
 -- 2 - band pass
 -- 3 - high pass
+--
+-- PAGE 3
+-- Encoder 2 - LFO rate
+-- Encoder 3 - LFO amount
+-- Button 2 - N.A.
+--
 -----------------------------------
 
 
@@ -117,11 +123,11 @@ function key(button, state)
     local screen = theSpeckles.tabs.index
 
     -- button 2  is shared amongst screens
-    if button == 2 and state == 1 then
+    if button == 3 and state == 1 then
         theSpeckles.tabs:set_index_delta(1, true)
     end
     if screen == 1 then
-        if button == 3 and state == 1 then
+        if button == 2 and state == 1 then
             local current = params:get("reverb")
             if current == 2 then
                 params:set("reverb", 1)
@@ -134,7 +140,7 @@ function key(button, state)
     end
 
     if screen == 2 then
-        if button == 3 and state == 1 then
+        if button == 2 and state == 1 then
             handleFilterTypeControl()
         end
     end

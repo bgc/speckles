@@ -30,6 +30,7 @@ function setupControls()
         ),
         action = engine.density
     }
+
     -- Param / Controlspec for engine panning
     params:add{
         type = "control",
@@ -39,6 +40,7 @@ function setupControls()
     }
 
     params:add_separator("Filter")
+
     -- filter type none/lp/bp/hp
     params:add_number("filter", "filter", 0, 3, 0)
     params:set_action("filter", function(v)
@@ -72,7 +74,9 @@ function setupControls()
         ),
         action = engine.reso
     }
+
     params:add_separator("LFO")
+
     -- Param / Controlspec for amplitude
     params:add{
         type = "control",
@@ -109,7 +113,7 @@ end
 -- Encoder 1 - Volume
 -- Button 1 - Standard norns
 -- function
--- Button 2 - Change Page
+-- Button 3 - Change Page
 
 function drawInstructions()
     screen.move(1, 12)
@@ -123,12 +127,12 @@ function drawInstructions()
     screen.close()
 
     screen.move(1, 32)
-    screen.text("B2 - Change Page")
+    screen.text("B3 - Change Page")
     screen.stroke()
     screen.close()
 
     screen.move(1, 42)
-    screen.text("B3, E2, E3 Page dependant")
+    screen.text("B2, E2, E3 Page dependant")
     screen.stroke()
     screen.close()
 end
