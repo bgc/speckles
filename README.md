@@ -21,7 +21,23 @@ Button 2, Encoder 2 and Encoder 3 are screen dependant
 
 ![Speckles screen 1](./DOCS/speckles_001.png)
 
+This is the Osc screen, where one can control the Engine's sound maker.  
+**Encoder 2** will handle the speckles density, **Encoder 3** will handle the panning and **Button 2** toggles the Reverb *on* and *off*
+
+**NB** *the Reverb is the main norns Reverb, not an engine specific one*
+
 ### Screen 2 - Filter
+
+The filter screen we can control the engine's filtering; there are four options available to us:
+
+* disabled (default)
+* lowpass
+* bandpass
+* highpass
+
+**Button 2** will allow switching active filter  
+Using **Encoder 2** the filter frequency can be changed and **Encoder 3** will change the filter's resonance
+
 
 ![Speckles screen 2](./DOCS/speckles_002.png)
 
