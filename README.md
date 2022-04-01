@@ -45,6 +45,13 @@ Using **Encoder 2** the filter frequency can be changed and **Encoder 3** will c
 
 ![Speckles screen 3](./DOCS/speckles_003.png)
 
+The LFO screen allows us to control a random stepped LFO that will impact the panning
+
+Using **Encoder 2** we control the LFO rate and **Encoder 3** controls the amount applied to the panning. This will be centered around the current panning value (defined in screen 1).
+Also of note is that panning (standard value + the LFO) will be clipped between **-1** and **1**
+
 ### Screen 4 - Help
 
 ![Speckles screen 4](./DOCS/speckles_004.png)
+
+This is a generic help screen
