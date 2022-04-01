@@ -14,23 +14,24 @@
 -- as part of
 -- illusory discontinuity
 -- https://illusorydiscontinuity.com
+-- https://github.com/bgc/speckles
 -- llllllll.co/t/???????????
 --
 -- General Controls:
 -- Encoder 1 - Volume
 -- Button 1 - Standard norns
 -- function
--- Button 3 - Change Page
+-- Button 3 - Change screen
 --
--- All others are page
+-- All others are screen
 -- dependant
 --
--- PAGE 1
+-- SCREEN 1
 -- Encoder 2 - speckles density
 -- Encoder 3 - Panning
 -- Button 2 - Toggle main Reverb
 --
--- PAGE 2
+-- SCREEN 2
 -- Encoder 2 - filter freq
 -- Encoder 3 - filter resonance
 -- Button 2 - filter type
@@ -39,7 +40,7 @@
 -- 2 - band pass
 -- 3 - high pass
 --
--- PAGE 3
+-- SCREEN 3
 -- Encoder 2 - LFO rate
 -- Encoder 3 - LFO amount
 -- Button 2 - N.A.

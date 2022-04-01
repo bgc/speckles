@@ -127,12 +127,12 @@ function drawInstructions()
     screen.close()
 
     screen.move(1, 32)
-    screen.text("B3 - Change Page")
+    screen.text("B3 - Change Screen")
     screen.stroke()
     screen.close()
 
     screen.move(1, 42)
-    screen.text("B2, E2, E3 Page dependant")
+    screen.text("B2, E2, E3 Screen dependant")
     screen.stroke()
     screen.close()
 end
