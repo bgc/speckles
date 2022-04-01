@@ -177,5 +177,5 @@ function printFilterValues()
     screen.text(string.format("%.2f", params:get('reso')))
     -- filter type
     screen.move(70, 20)
-    screen.text("B3 - Type: ")
+    screen.text("B2 - Type: ")
 end
