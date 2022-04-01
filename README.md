@@ -28,6 +28,8 @@ This is the Osc screen, where one can control the Engine's sound maker.
 
 ### Screen 2 - Filter
 
+![Speckles screen 2](./DOCS/speckles_002.png)
+
 The filter screen we can control the engine's filtering; there are four options available to us:
 
 * disabled (default)
@@ -37,9 +39,6 @@ The filter screen we can control the engine's filtering; there are four options 
 
 **Button 2** will allow switching active filter  
 Using **Encoder 2** the filter frequency can be changed and **Encoder 3** will change the filter's resonance
-
-
-![Speckles screen 2](./DOCS/speckles_002.png)
 
 ### Screen 3 - LFO
 
@@ -55,3 +54,7 @@ Also of note is that panning (standard value + the LFO) will be clipped between 
 ![Speckles screen 4](./DOCS/speckles_004.png)
 
 This is a generic help screen
+
+llllllll forum link
+
+https://llllllll.co/t/speckles/54106

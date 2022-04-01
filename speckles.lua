@@ -15,7 +15,7 @@
 -- illusory discontinuity
 -- https://illusorydiscontinuity.com
 -- https://github.com/bgc/speckles
--- llllllll.co/t/???????????
+-- https://llllllll.co/t/speckles/54106
 --
 -- General Controls:
 -- Encoder 1 - Volume
