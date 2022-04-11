@@ -68,6 +68,15 @@ Engine_Speckles : CroneEngine {
 			var val = msg[1].asFloat;
 			speckle.set(\amount, val);
 		});
+		
+		
+		// noteOn(id, freq, vel)
+    // this.addCommand(\noteOn, "iff", { arg msg;
+    //   var id = msg[1], freq = msg[2], vel = msg[3];
+    //	 speckle.set(\filter_freq, freq, \reso, vel);
+    // });
+		
+		
   }
 
   	free {

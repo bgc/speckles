@@ -9,7 +9,7 @@
 -- scriptname: speckles
 -- Dust2 based engine,
 -- because I like Dust2
--- v0.0.1 by: 
+-- v0.0.2 by: 
 -- @bgc
 -- as part of
 -- illusory discontinuity
@@ -56,6 +56,7 @@ engine.name = "Speckles"
 local UI = require "ui"
 local ControlSpec = require "controlspec"
 local fGraph = require "filtergraph"
+local MusicUtil = require "musicutil"
 
 -- Engine Global
 theSpeckles = {}
@@ -70,6 +71,7 @@ local speckles_lib = include "lib/speckles-lib"
 local SCREEN_FRAMERATE = 15
 local screen_refresh_metro
 
+local midi_in_device
 
 
 local function setupScreen()
@@ -117,6 +119,35 @@ function init()
         end
     end
     screen_refresh_metro:start(1 / SCREEN_FRAMERATE)
+    
+    midi_in_device = midi.connect(1)
+    midi_in_device.event = midi_event
+    
+    params:add_separator("Input")
+
+    params:add{
+      type = "number",
+      id = "midi_device",
+      name = "MIDI Device",
+      min = 1,
+      max = 4,
+      default = 1,
+      action = function(value)
+        midi_in_device.event = nil
+        midi_in_device = midi.connect(value)
+        midi_in_device.event = midi_event
+      end
+    }
+  
+  local channels = {"All"}
+  for i = 1, 16 do table.insert(channels, i) end
+  params:add{
+    type = "option",
+    id = "midi_channel",
+    name = "MIDI Channel",
+    options = channels
+  }
+  
 end
 
 -- Keys functionality 
@@ -206,6 +237,32 @@ function enc(encoder, delta)
 
     -- always have redraw at the end
     redraw()
+end
+
+local function note_on(note_num, vel)
+  -- engine.noteOn(note_num, MusicUtil.note_num_to_freq(note_num), vel)
+  params:set("filter_freq", MusicUtil.note_num_to_freq(note_num))
+  params:get("reso", vel/127)
+  local currentFilterType = theSpeckles.filterUI.filter:filter_type()
+  local filterSlope = theSpeckles.filterUI.filter:get_slope()
+  local filterFreq = theSpeckles.filterUI.filter:get_freq()
+  local resonance = params:get("reso")
+  theSpeckles.filterUI.filter:edit(currentFilterType, filterSlope, filterFreq, resonance)
+  screen_dirty = true
+end
+
+-- MIDI input
+local function midi_event(data)
+  
+  local msg = midi.to_msg(data)
+  local channel_param = params:get("midi_channel")
+  
+  if channel_param == 1 or (channel_param > 1 and msg.ch == channel_param - 1) then
+    -- Note on
+    if msg.type == "note_on" then
+      note_on(msg.note, msg.vel / 127)
+    end
+  end
 end
 
 -- Screen functionality
